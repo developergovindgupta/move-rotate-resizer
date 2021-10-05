@@ -7,10 +7,10 @@
 ## How to install
     npm install move-rotate-resizer
 
-## [download from gitHub]()
-### [resizer.js]()
-### [resizer.min.js]()
-### [resizer.css]()
+## [download from gitHub](https://github.com/developergovindgupta/move-rotate-resizer)
+### [resizer.js](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.js)
+### [resizer.min.js](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.min.js)
+### [resizer.css](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css)
 
 
 ## How to use
