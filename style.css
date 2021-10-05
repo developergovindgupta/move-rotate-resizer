@@ -1,0 +1,50 @@
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+html,
+body {
+	width: 100%;
+	height: 100%;
+}
+body {
+	background-color: lightblue;
+}
+.container {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	left: 100px;
+	top: 100px;
+	right: 100px;
+	bottom: 100px;
+	border: solid 1px red;
+
+	overflow: auto;
+}
+.content {
+	width: 800px;
+	height: 600px;
+	background-color: white;
+}
+.print-area {
+	position: relative;
+	width: 1600px;
+	height: 1200px;
+	background-color: white;
+	border: solid 1px black;
+	transform-origin: 0px 0px;
+	transform: scale(0.5);
+	overflow: hidden;
+}
+.target {
+	position: absolute;
+	top: 300px;
+	left: 400px;
+	width: 300px;
+	height: 300px;
+	border: solid 2px black;
+	background-color: lightgreen;
+}
