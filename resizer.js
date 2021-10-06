@@ -17,7 +17,7 @@ if (document.querySelectorAll('link[href*="resizer.css"], style[src*="resizer.cs
 			console.log(err);
 		});
 }
-const moveRotateResizeHandler = {
+const resizer = {
 	target: null,
 	resizer: null,
 	addTarget(target, options) {
@@ -910,4 +910,4 @@ const moveRotateResizeHandler = {
 		}
 	},
 };
-export default moveRotateResizeHandler;
+// export default resizer;

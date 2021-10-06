@@ -16,7 +16,10 @@
 ## How to use
     import resizer from 'move-rotate-resizer';
     or
-    import resizer from './js/resizer.js';
+    import resizer from './js/resizer.min.js';
+    or
+    <link rel="stylesheet" href="resizer.css" />
+    <script type="text/javascript" src="resizer.js"></script>
 
 
 ## Usase Example-1
@@ -84,6 +87,7 @@
         <title>Parcel Sandbox</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="src/styles.css" />
+        <link rel="stylesheet" href="/node_modules/move-rotate-resizer/resizer.css" />
     </head>
     <body>
         <h1>DEMO : move-rotate-resizer</h1>
@@ -105,6 +109,9 @@
     });
 
 ## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+
+### download css file and include in your html file.
+### [resizer.css](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css)
 
 # License FREE
 ## Developed by Govind Gupta
