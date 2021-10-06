@@ -1,5 +1,5 @@
 if (document.querySelectorAll('link[href*="resizer.css"], style[src*="resizer.css"]').length === 0) {
-	fetch('./resizer.css')
+	fetch('https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css')
 		.then((response) => {
 			if (response.ok) {
 				response.text().then((data) => {
