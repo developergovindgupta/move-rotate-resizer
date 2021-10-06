@@ -143,7 +143,7 @@ const moveRotateResizeHandler = {
 					e.size = { ...target.size };
 					e.angle = target.angle;
 					e.evtTarget = target;
-					e.handler = resizer;
+					e.handler = this.resizer;
 					target.options.onDragStart && target.options.onDragStart(e);
 				}
 
@@ -164,7 +164,7 @@ const moveRotateResizeHandler = {
 					e.size = { ...target.newSize };
 					e.angle = target.angle;
 					e.evtTarget = target;
-					e.handler = resizer;
+					e.handler = this.resizer;
 					target.options.onDragging(e);
 				}
 				this.showResizer(target);
@@ -182,7 +182,7 @@ const moveRotateResizeHandler = {
 					e.size = { ...target.newSize };
 					e.angle = target.angle;
 					e.evtTarget = target;
-					e.handler = resizer;
+					e.handler = this.resizer;
 					target.options.onDragEnd(e);
 				}
 				this.showResizer(target);

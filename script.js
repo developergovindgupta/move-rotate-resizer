@@ -1,4 +1,4 @@
-import resizer from './resizer.js';
+import resizer from './resizer.min.js';
 
 document.querySelectorAll('.target').forEach((target) => {
 	resizer.addTarget(target, {
