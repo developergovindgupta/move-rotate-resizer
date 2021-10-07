@@ -210,6 +210,7 @@ const resizer = {
 				//create new resizer-container
 				resizer = document.createElement('div');
 				resizer.className = 'resizer-container';
+				resizer.style.position = 'absolute';
 				document.body.appendChild(resizer);
 				this.resizer = resizer;
 
