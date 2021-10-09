@@ -1,5 +1,5 @@
 # Move Rotate Resize Handler JavaScript
-## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+## [DEMO](https://bh8q3.csb.app/) 
 ## resizer.js and resizer.css 
 ### A simple javascript object that provide easy way to make any dom element resizable. It provide handles to move, resize and rotate target element.
 
@@ -33,11 +33,18 @@
 |removeTarget(target)|remove target dom element from resizer. it remove all event listener.|
 |showResizer(target)|show resizer handler on target dom element by javascript code.|
 |hideResizer()|hide resizer handler by javascript code.|
+
 ## Properties and Descriptions
 |Propery|Description|
 |-|-|
 |target|return current selected target dom element|
 |resizer|return resizer handlers dom element|
+
+## Dom Element Attribute
+|Attribute|Description|
+|-|-|
+|isLocked|"true" then resize handler can not change the target position or size|
+|isDisabled|"true" then resize handler not visible|
 
 ## Options passed with addTarget method
     let options = {
@@ -101,7 +108,7 @@
     </html>
     <script src="src/index.js"></script>
 
-### Script
+### Script [index.js]
     import resizer from 'move-rotate-resizer';
 
     document.querySelectorAll('.target').forEach((target) => {

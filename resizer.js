@@ -132,7 +132,7 @@ const resizer = {
 				};
 				window.addEventListener('click', handleClick, true);
 				target.moveCounter = 0;
-				target.resizer.showHideResizer(true);
+				target.resizer && target.resizer.showHideResizer && target.resizer.showHideResizer(true);
 			};
 			let handleMousemove = (e) => {
 				e.stopPropagation();
@@ -189,16 +189,18 @@ const resizer = {
 
 				target.dispatchEvent(new MouseEvent('click'));
 			};
-			target.handleMousedown = handleMousedown;
-			target.removeEventListener('mousedown', handleMousedown);
-			target.addEventListener('mousedown', handleMousedown);
-			target.removeEventListener('touchstart', handleMousedown);
-			target.addEventListener('touchstart', handleMousedown);
-			target.handleClick = (e) => {
-				e.stopPropagation();
-			};
-			target.removeEventListener('click', target.handleClick);
-			target.addEventListener('click', target.handleClick);
+			if (!target.handleMousedown) {
+				target.handleMousedown = handleMousedown;
+				target.removeEventListener('mousedown', handleMousedown);
+				target.addEventListener('mousedown', handleMousedown);
+				target.removeEventListener('touchstart', handleMousedown);
+				target.addEventListener('touchstart', handleMousedown);
+				target.handleClick = (e) => {
+					e.stopPropagation();
+				};
+				target.removeEventListener('click', target.handleClick);
+				target.addEventListener('click', target.handleClick);
+			}
 		}
 	},
 	showResizer(target) {
@@ -206,7 +208,6 @@ const resizer = {
 			if (!this.resizer) {
 				let resizer = document.querySelector('.resizer-container');
 				resizer && resizer.remove();
-
 				//create new resizer-container
 				resizer = document.createElement('div');
 				resizer.className = 'resizer-container';
@@ -279,6 +280,9 @@ const resizer = {
 				ddmrr_angle_div.style.display = 'none';
 				document.body.appendChild(ddmrr_angle_div);
 				resizer.showHideResizer = function (isHide, resizerHandle) {
+					if (this.target.isLocked) {
+						isHide = false;
+					}
 					resizer.querySelectorAll('*').forEach((x) => {
 						x !== resizerHandle && (x.style.opacity = isHide ? 0 : 1);
 					});
@@ -401,6 +405,8 @@ const resizer = {
 					}
 					resizer.current = e.target;
 					moveCounter = 0;
+
+					resizer.current.classList.add('active');
 
 					resizer.startPos = { x: e.clientX + document.body.scrollLeft, y: e.clientY + document.body.scrollTop };
 					target.size = {
@@ -805,6 +811,7 @@ const resizer = {
 							}
 						}
 					}
+					resizer.current.classList.remove('active');
 					this.showResizer(target);
 				};
 				let moveCounter = 0;
@@ -825,6 +832,10 @@ const resizer = {
 				window.addEventListener('scroll', scrollHandler, true);
 			}
 			let resizer = this.resizer;
+			if (!document.querySelector('.resizer-container')) {
+				console.log('not found');
+				document.body.appendChild(resizer);
+			}
 			let getBorderBox = (target) => {
 				let _target = resizer._target;
 				if (!_target) {
