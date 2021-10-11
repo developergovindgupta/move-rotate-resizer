@@ -24,7 +24,7 @@
 
 ## Usase Example-1
 
-    resizer.addTarget(document.getElementById('div1'));
+    resizer.add(document.getElementById('div1'));
 
 ## Methods and Descriptions
 |Method|Description|
@@ -47,7 +47,7 @@
 |isLocked|"true" then resize handler can not change the target position or size|
 |isDisabled|"true" then resize handler not visible|
 
-## Options passed with addTarget method
+## Options passed with add method
     let options = {
         minWidth: 30,               // minimum width in px
         minHeight: 30,              // minimum height in px
@@ -77,7 +77,6 @@
             sw: true,               // bottom-left resize handler
             r: true,                // rotate handler
         },
-        
     };
 
 ### Note callBack function receive an props having properties
