@@ -165,6 +165,13 @@
 	top: 0px;
 	right: 3px;
 }
+.resizer-target-hover-line {
+	position: absolute;
+	pointer-events: none;
+	z-index: 99999;
+	border: solid 4px rgb(0, 128, 255);
+	transition: opacity 100ms ease-in-out;
+}
 
 /*Custom Cursor Pointer*/
 .cursor_0d {

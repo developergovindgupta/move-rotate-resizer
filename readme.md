@@ -29,16 +29,17 @@
 ## Methods and Descriptions
 |Method|Description|
 |-|-|
-|addTarget(target [,options])|add target dom element to resizer. it register event listener.|
-|removeTarget(target)|remove target dom element from resizer. it remove all event listener.|
-|showResizer(target)|show resizer handler on target dom element by javascript code.|
-|hideResizer()|hide resizer handler by javascript code.|
+|add(target [,options])|add target dom element to resizer. it register event listener.|
+|remove(target)|remove target dom element from resizer. it remove all event listener.|
+|show(target)|show resizer handler on target dom element by javascript code.|
+|hide()|hide resizer handler by javascript code.|
 
 ## Properties and Descriptions
 |Propery|Description|
 |-|-|
 |target|return current selected target dom element|
 |resizer|return resizer handlers dom element|
+|hoverLine|return resizer hoverLine dom element|
 
 ## Dom Element Attribute
 |Attribute|Description|
@@ -63,6 +64,8 @@
         onRotateEnd: null,          // call-back function that called when release rotate handler
         onResizerShown: null,       // call-back function that called when resizer is first time shown on target
         onResizerHide: null,        // call-back function that called when resizer is hide on target
+        isHideOnResize: true,       // if true then resizer will not visible at the time of dragging so that target visible clearly
+        isHoverLine: true,          // if true then target element on mouse hover hoverLine visible for highlight target element
         resizers: {
             n: true,                // top middle resize handler            true:visible|false:hidden
             s: true,                // bottom middle resize handler
@@ -74,7 +77,7 @@
             sw: true,               // bottom-left resize handler
             r: true,                // rotate handler
         },
-        isHideOnResize: true,       // if true then resizer will not visible at the time of dragging so that target visible clearly
+        
     };
 
 ### Note callBack function receive an props having properties
@@ -91,7 +94,7 @@
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Parcel Sandbox</title>
+        <title>move-rotate-resize:demo</title>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="src/styles.css" />
         <link rel="stylesheet" href="/node_modules/move-rotate-resizer/resizer.css" />
@@ -112,7 +115,7 @@
     import resizer from 'move-rotate-resizer';
 
     document.querySelectorAll('.target').forEach((target) => {
-        resizer.addTarget(target);
+        resizer.add(target);
     });
 
 ## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 

@@ -20,7 +20,8 @@ if (document.querySelectorAll('link[href*="resizer.css"], style[src*="resizer.cs
 const resizer = {
 	target: null,
 	resizer: null,
-	addTarget(target, options) {
+	hoverLine: null,
+	add(target, options) {
 		this.target = target;
 		if (target) {
 			let defaultOptions = {
@@ -39,6 +40,8 @@ const resizer = {
 				onRotateEnd: null,
 				onResizerShown: null,
 				onResizerHide: null,
+				isHideOnResize: true,
+				isHoverLine: true,
 				resizers: {
 					n: true,
 					s: true,
@@ -50,7 +53,6 @@ const resizer = {
 					sw: true,
 					r: true,
 				},
-				isHideOnResize: true,
 			};
 			let getAngle = (target) => {
 				let angle = 0;
@@ -76,6 +78,7 @@ const resizer = {
 			};
 			options = options || {};
 			target.options = { ...defaultOptions, ...options };
+			target.options.resizers = { ...target.options.resizers };
 			target.style.position = 'absolute';
 			target.style.left = target.offsetLeft + 'px';
 			target.style.top = target.offsetTop + 'px';
@@ -87,12 +90,15 @@ const resizer = {
 			if (target.isDisabled) {
 				target.resizer = false;
 			}
-			let bBox = this.showResizer(target);
+			let bBox = this.show(target);
 			target.bBox = bBox;
 			target.scale = bBox.width / target.offsetWidth;
 			target.moveCounter = 0;
 			target.resizer = this.resizer;
 
+			if (!document.querySelector('.resizer-container')) {
+				document.body.appendChild(target.resizer);
+			}
 			let handleMousedown = (e) => {
 				if (e.type === 'mousedown') {
 					e.preventDefault();
@@ -104,7 +110,7 @@ const resizer = {
 				target.isDisabled = target.getAttribute('isDisabled') === 'true';
 				if (target.isDisabled) {
 					target.resizer = false;
-					this.hideResizer();
+					this.hide();
 				}
 				target.isLocked = target.getAttribute('islocked') === 'true';
 				target.startPos = { x: e.clientX + document.body.scrollLeft, y: e.clientY + document.body.scrollTop };
@@ -122,17 +128,17 @@ const resizer = {
 					target.startPos = { x: e.touches[0].clientX + document.body.scrollLeft, y: e.touches[0].clientY + document.body.scrollTop };
 				}
 				target.resizer && (target.resizer.visibile = false);
-				this.showResizer(target);
+				this.show(target);
 				this.target = target;
 				let handleClick = (e) => {
 					e.stopPropagation();
 					e.preventDefault();
-					this.showResizer(target);
+					this.show(target);
 					window.removeEventListener('click', handleClick, true);
 				};
 				window.addEventListener('click', handleClick, true);
 				target.moveCounter = 0;
-				target.resizer && target.resizer.showHideResizer && target.resizer.showHideResizer(true);
+				this.hoverLine && (this.hoverLine.style.opacity = '0');
 			};
 			let handleMousemove = (e) => {
 				e.stopPropagation();
@@ -145,6 +151,7 @@ const resizer = {
 					e.evtTarget = target;
 					e.handler = this.resizer;
 					target.options.onDragStart && target.options.onDragStart(e);
+					target.resizer && target.resizer.showHideResizer && target.resizer.showHideResizer(true);
 				}
 
 				let x = e.clientX + document.body.scrollLeft - target.startPos.x;
@@ -167,7 +174,7 @@ const resizer = {
 					e.handler = this.resizer;
 					target.options.onDragging(e);
 				}
-				this.showResizer(target);
+				this.show(target);
 			};
 			let handleMouseup = (e) => {
 				e.stopPropagation();
@@ -185,10 +192,51 @@ const resizer = {
 					e.handler = this.resizer;
 					target.options.onDragEnd(e);
 				}
-				this.showResizer(target);
+				this.show(target);
 
 				target.dispatchEvent(new MouseEvent('click'));
 			};
+
+			target.handleMouseEnter = (e) => {
+				if (this.target != e.target && e.target.options.isHoverLine) {
+					let getBorderBox = (target) => {
+						let _hoverLine = target.cloneNode();
+						_hoverLine.innerHTML = '';
+						_hoverLine.style.cssText = target.style.cssText;
+						_hoverLine.style.opacity = '0';
+						_hoverLine.style.pointerEvents = 'none';
+						let transform = _hoverLine.style.transform;
+						if (transform && transform.indexOf('rotate') >= 0) {
+							_hoverLine.style.transform = transform.replace(/rotate\(\w*\)/gi, '');
+						} else if (target.angle) {
+							_hoverLine.style.transform = transform + ' rotate(0deg)';
+						}
+						target.parentNode.appendChild(_hoverLine);
+						let bBox = _hoverLine.getBoundingClientRect();
+						_hoverLine.remove();
+						return bBox;
+					};
+
+					let hoverLine = document.querySelector('.resizer-target-hover-line');
+					!hoverLine && (hoverLine = document.createElement('div'));
+					hoverLine.className = 'resizer-target-hover-line';
+					hoverLine.style.position = 'absolute';
+					document.body.appendChild(hoverLine);
+					this.hoverLine = hoverLine;
+					let bBox = getBorderBox(e.target);
+					hoverLine.style.left = parseInt(bBox.left + window.scrollX) + 'px';
+					hoverLine.style.top = parseInt(bBox.top + window.scrollY) + 'px';
+					hoverLine.style.width = parseInt(bBox.width + 2) + 'px';
+					hoverLine.style.height = parseInt(bBox.height + 2) + 'px';
+					hoverLine.style.opacity = '1';
+					hoverLine.style.transform = 'rotate(' + (e.target.angle || 0) + 'deg)';
+					hoverLine.target = e.target;
+				}
+			};
+			target.handleMouseLeave = (e) => {
+				this.hoverLine && (this.hoverLine.style.opacity = '0');
+			};
+
 			if (!target.handleMousedown) {
 				target.handleMousedown = handleMousedown;
 				target.removeEventListener('mousedown', handleMousedown);
@@ -200,10 +248,12 @@ const resizer = {
 				};
 				target.removeEventListener('click', target.handleClick);
 				target.addEventListener('click', target.handleClick);
+				target.addEventListener('mouseenter', target.handleMouseEnter);
+				target.addEventListener('mouseleave', target.handleMouseLeave);
 			}
 		}
 	},
-	showResizer(target) {
+	show(target) {
 		if (target && target.resizer) {
 			if (!this.resizer) {
 				let resizer = document.querySelector('.resizer-container');
@@ -471,7 +521,7 @@ const resizer = {
 								break;
 						}
 					}
-					this.showResizer(target);
+					this.show(target);
 					let handleClick = (e) => {
 						e.stopPropagation();
 						e.preventDefault();
@@ -739,7 +789,7 @@ const resizer = {
 							target.options.onResizing(e);
 						}
 					}
-					this.showResizer(target);
+					this.show(target);
 				};
 				let handleMouseup = (e) => {
 					e.stopPropagation();
@@ -812,7 +862,7 @@ const resizer = {
 						}
 					}
 					resizer.current.classList.remove('active');
-					this.showResizer(target);
+					this.show(target);
 				};
 				let moveCounter = 0;
 				resizer.removeEventListener('mousedown', handleMousedown);
@@ -821,21 +871,17 @@ const resizer = {
 				resizer.addEventListener('touchstart', handleMousedown);
 
 				let onWindowResize = (e) => {
-					resizer.visibile && this.showResizer(this.target);
+					resizer.visibile && this.show(this.target);
 				};
 				window.removeEventListener('resize', onWindowResize, true);
 				window.addEventListener('resize', onWindowResize, true);
 				let scrollHandler = (e) => {
-					resizer.visibile && this.showResizer(this.target);
+					resizer.visibile && this.show(this.target);
 				};
 				window.removeEventListener('scroll', scrollHandler, true);
 				window.addEventListener('scroll', scrollHandler, true);
 			}
 			let resizer = this.resizer;
-			if (!document.querySelector('.resizer-container')) {
-				console.log('not found');
-				document.body.appendChild(resizer);
-			}
 			let getBorderBox = (target) => {
 				let _target = resizer._target;
 				if (!_target) {
@@ -908,17 +954,20 @@ const resizer = {
 		}
 		return target.getBoundingClientRect();
 	},
-	hideResizer() {
+	hide() {
+		this.target = null;
 		this.resizer.style.display = 'none';
 		this.resizer.visibile = false;
 	},
-	removeTarget(target) {
+	remove(target) {
 		if (target && target.handleMousedown) {
 			target.removeEventListener('mousedown', target.handleMousedown);
 			target.removeEventListener('touchstart', target.handleMousedown);
+			target.removeEventListener('mouseenter', target.handleMouseEnter);
+			target.removeEventListener('mouseleave', target.handleMouseLeave);
 			target.options && (target.options = null);
 			target.resizer = null;
-			this.hideResizer();
+			this.hide();
 		}
 	},
 };

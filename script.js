@@ -1,7 +1,7 @@
 import resizer from './resizer.min.js';
 
 document.querySelectorAll('.target').forEach((target) => {
-	resizer.addTarget(target, {
+	resizer.add(target, {
 		onDragStart: function (e) {
 			// console.log('onDragStart:', e);
 			// console.log(target.options);
@@ -64,5 +64,5 @@ document.querySelectorAll('.target').forEach((target) => {
 });
 document.body.addEventListener('click', function (e) {
 	console.log('document.body.click', e);
-	resizer.hideResizer();
+	resizer.hide();
 });
