@@ -122,5 +122,4 @@
 ### download css file and include in your html file.
 ### [resizer.css](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css)
 
-# License FREE
 ## Developed by Govind Gupta
