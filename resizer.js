@@ -27,6 +27,7 @@ const resizer = {
 			let defaultOptions = {
 				minWidth: 30,
 				minHeight: 30,
+        constrainToParent: false,
 				aspectRatio: true,
 				resizeFromCenter: false,
 				onDragStart: null,
@@ -162,6 +163,21 @@ const resizer = {
 				}
 				let newX = target.size.left + x / target.scale;
 				let newY = target.size.top + y / target.scale;
+
+        if (target.options.constrainToParent) {
+          const containerBounding = this.target.parentElement.getBoundingClientRect();
+          const targetBounding = this.target.getBoundingClientRect();
+          // console.log('containerBounding', containerBounding);
+
+          if (newX < 0) newX = 0;
+          if (newY < 0) newY = 0;
+          if (newY + (targetBounding.height / target.scale) > containerBounding.height / target.scale) newY = containerBounding.height / target.scale - targetBounding.height / target.scale;
+          if (newX  + (targetBounding.width / target.scale) > containerBounding.width / target.scale) newX = containerBounding.width / target.scale - targetBounding.width / target.scale;
+
+          // console.log('newX', newX);
+          // console.log('newY', newY);
+        }
+
 				target.style.left = newX + 'px';
 				target.style.top = newY + 'px';
 				target.newSize = { ...target.size, left: newX, top: newY };
@@ -971,4 +987,4 @@ const resizer = {
 		}
 	},
 };
-// export default resizer;
+export default resizer;

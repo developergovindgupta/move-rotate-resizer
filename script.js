@@ -1,7 +1,8 @@
-import resizer from './resizer.min.js';
+import resizer from './resizer.js';
 
 document.querySelectorAll('.target').forEach((target) => {
 	resizer.add(target, {
+    constrainToParent: true,
 		onDragStart: function (e) {
 			// console.log('onDragStart:', e);
 			// console.log(target.options);
