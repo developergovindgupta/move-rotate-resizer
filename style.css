@@ -47,4 +47,9 @@ body {
 	height: 300px;
 	border: solid 2px black;
 	background-color: lightgreen;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 2em;
+	cursor: default;
 }

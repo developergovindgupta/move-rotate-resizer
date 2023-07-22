@@ -12,6 +12,9 @@
 ### [resizer.min.js](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.min.js)
 ### [resizer.css](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css)
 
+![](./resizer.png)
+## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+
 
 ## How to use
     import resizer from 'move-rotate-resizer';
@@ -22,7 +25,7 @@
     <script type="text/javascript" src="resizer.js"></script>
 
 
-## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+
 
 ## Usase Example-1
 
