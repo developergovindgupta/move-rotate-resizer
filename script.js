@@ -1,6 +1,6 @@
 import resizer from './resizer.min.js';
 
-document.querySelectorAll('.target').forEach((target) => {
+document.querySelectorAll('.target').forEach((target, i) => {
 	resizer.add(target, {
 		onDragStart: function (e) {
 			// console.log('onDragStart:', e);
@@ -54,6 +54,8 @@ document.querySelectorAll('.target').forEach((target) => {
 			sw: true,
 			r: true,
 		},
+		resizeFromCenter: i === 0,
+		boundWithContainer: true,
 	});
 
 	// target.addEventListener('click', function (e) {

@@ -164,6 +164,34 @@ const resizer = {
 				let newY = target.size.top + y / target.scale;
 				target.style.left = newX + 'px';
 				target.style.top = newY + 'px';
+
+				if (options.boundWithContainer) {
+					let container = target.offsetParent;
+					if (container) {
+						let bBox = container.getBoundingClientRect();
+						let xBox = target.getBoundingClientRect();
+
+						if (xBox.left < bBox.left) {
+							let dx = bBox.left - xBox.left;
+							newX += dx / target.scale;
+						}
+						if (xBox.top < bBox.top) {
+							let dy = bBox.top - xBox.top;
+							newY += dy / target.scale;
+						}
+						if (xBox.right > bBox.right) {
+							let dx = bBox.right - xBox.right;
+							newX += dx / target.scale;
+						}
+						if (xBox.bottom > bBox.bottom) {
+							let dy = bBox.bottom - xBox.bottom;
+							newY += dy / target.scale;
+						}
+						target.style.left = newX + 'px';
+						target.style.top = newY + 'px';
+					}
+				}
+
 				target.newSize = { ...target.size, left: newX, top: newY };
 
 				//dispatch Events
@@ -458,7 +486,10 @@ const resizer = {
 
 					resizer.current.classList.add('active');
 
-					resizer.startPos = { x: e.clientX + document.body.scrollLeft, y: e.clientY + document.body.scrollTop };
+					resizer.startPos = {
+						x: e.clientX + document.body.scrollLeft,
+						y: e.clientY + document.body.scrollTop,
+					};
 					target.size = {
 						left: target.offsetLeft,
 						top: target.offsetTop,
@@ -466,13 +497,18 @@ const resizer = {
 						height: target.offsetHeight,
 						cx: target.offsetLeft + target.offsetWidth / 2,
 						cy: target.offsetTop + target.offsetHeight / 2,
+						angle: target.angle,
 					};
+					target.prevSize = { ...target.size };
 
 					if (e.type === 'touchstart') {
 						if (e.touches.length > 1) {
 							return;
 						}
-						resizer.startPos = { x: e.touches[0].clientX + document.body.scrollLeft, y: e.touches[0].clientY + document.body.scrollTop };
+						resizer.startPos = {
+							x: e.touches[0].clientX + document.body.scrollLeft,
+							y: e.touches[0].clientY + document.body.scrollTop,
+						};
 					}
 					target.bBox = target.getBoundingClientRect();
 					if (target.angle) {
@@ -771,6 +807,38 @@ const resizer = {
 					target.style.top = top + 'px';
 					target.style.width = width + 'px';
 					target.style.height = height + 'px';
+
+					if (target.options.boundWithContainer) {
+						let container = target.offsetParent;
+						if (container) {
+							let bBox = container.getBoundingClientRect();
+							let xBox = target.getBoundingClientRect();
+							if (xBox.left < bBox.left || xBox.top < bBox.top || xBox.right > bBox.right || xBox.bottom > bBox.bottom) {
+								left = target.prevSize.left;
+								top = target.prevSize.top;
+								width = target.prevSize.width;
+								height = target.prevSize.height;
+								angle = target.prevSize.angle;
+								newSize = { left, top, width, height };
+
+								target.newSize = newSize;
+								target.style.left = left + 'px';
+								target.style.top = top + 'px';
+								target.style.width = width + 'px';
+								target.style.height = height + 'px';
+								target.angle = angle;
+								if (target.style.transform.indexOf('rotate') >= 0) {
+									target.style.transform = target.style.transform.replace(/rotate\(\w*\)/gi, 'rotate(' + angle + 'deg)');
+								} else {
+									target.style.transform += ' rotate(' + angle + 'deg)';
+								}
+								showAngleValue(X, Y, angle);
+							} else {
+								target.prevSize = { left, top, width, height, angle };
+							}
+						}
+					}
+
 					//trigger onResizing Event
 					if (this.resizer.current.actionName === 'r-resizer') {
 						if (target.options && target.options.onRotating) {
@@ -971,4 +1039,4 @@ const resizer = {
 		}
 	},
 };
-// export default resizer;
+export default resizer;

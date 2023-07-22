@@ -22,6 +22,8 @@
     <script type="text/javascript" src="resizer.js"></script>
 
 
+## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+
 ## Usase Example-1
 
     resizer.add(document.getElementById('div1'));
@@ -66,6 +68,7 @@
         onResizerHide: null,        // call-back function that called when resizer is hide on target
         isHideOnResize: true,       // if true then resizer will not visible at the time of dragging so that target visible clearly
         isHoverLine: true,          // if true then target element on mouse hover hoverLine visible for highlight target element
+        boundWithContainer:false,   // if true then target element can not move outside the container element.
         resizers: {
             n: true,                // top middle resize handler            true:visible|false:hidden
             s: true,                // bottom middle resize handler
