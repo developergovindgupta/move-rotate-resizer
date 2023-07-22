@@ -4,7 +4,7 @@
   "description": "A simple javascript object that provide easy way to make any dom element resizable. It provide handles to move, resize and rotate target element",
   "main": "resizer.min.js",
   "scripts": {
-    "deploy": "gh-pages"
+    "deploy": "gh-pages -d ."
   },
   "repository": {
     "type": "git",
