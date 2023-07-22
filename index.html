@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>move-rotate-resizer:demo</title>
+		<link rel="stylesheet" href="style.css" />
+		<link rel="stylesheet" href="resizer.css" />
+		<!-- <script type="text/javascript" src="resizer.js"></script> -->
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="content">
+				<div class="print-area">
+					<div id="center-resize" class="target" style="left: 400px; top: 200px" isLocked="false" isDisabled="false">Center Resize</div>
+					<div id="corner-resize" class="target" style="left: 800px; top: 200px">Corner Resize</div>
+					<div id="free-resize" class="target" style="left: 400px; top: 600px">Free Resize</div>
+					<div id="bound-resize" class="target" style="left: 800px; top: 600px">Can't Move Outside</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="module" src="script.js"></script>
