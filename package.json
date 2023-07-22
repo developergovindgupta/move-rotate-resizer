@@ -1,0 +1,31 @@
+{
+  "name": "move-rotate-resizer",
+  "version": "1.0.6",
+  "description": "A simple javascript object that provide easy way to make any dom element resizable. It provide handles to move, resize and rotate target element",
+  "main": "resizer.min.js",
+  "scripts": {
+    "deploy": "gh-pages"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/developergovindgupta/move-rotate-resizer.git"
+  },
+  "keywords": [
+    "move",
+    "rotate",
+    "resize",
+    "ddmrr",
+    "drag",
+    "drop",
+    "resizer"
+  ],
+  "author": "developergovindgupta@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/developergovindgupta/move-rotate-resizer/issues"
+  },
+  "homepage": "https://github.com/developergovindgupta/move-rotate-resizer#readme",
+  "devDependencies": {
+		"gh-pages": "^3.2.3"
+	}
+}
