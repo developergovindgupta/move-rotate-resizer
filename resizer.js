@@ -42,6 +42,7 @@ const resizer = {
 				onResizerHide: null,
 				isHideOnResize: true,
 				isHoverLine: true,
+				boundWithContainer: false,
 				resizers: {
 					n: true,
 					s: true,
@@ -166,7 +167,7 @@ const resizer = {
 				target.style.top = newY + 'px';
 
 				if (options.boundWithContainer) {
-					let container = target.offsetParent;
+					let container = options.boundWithContainer instanceof HTMLDivElement ? options.boundWithContainer : target.offsetParent;
 					if (container) {
 						let bBox = container.getBoundingClientRect();
 						let xBox = target.getBoundingClientRect();
@@ -809,7 +810,7 @@ const resizer = {
 					target.style.height = height + 'px';
 
 					if (target.options.boundWithContainer) {
-						let container = target.offsetParent;
+						let container = target.options.boundWithContainer instanceof HTMLDivElement ? target.options.boundWithContainer : target.offsetParent;
 						if (container) {
 							let bBox = container.getBoundingClientRect();
 							let xBox = target.getBoundingClientRect();

@@ -1,5 +1,4 @@
 # Move Rotate Resize Handler JavaScript
-## [DEMO](https://bh8q3.csb.app/) 
 ## resizer.js and resizer.css 
 ### A simple javascript object that provide easy way to make any dom element resizable. It provide handles to move, resize and rotate target element.
 
@@ -12,9 +11,10 @@
 ### [resizer.min.js](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.min.js)
 ### [resizer.css](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css)
 
-![](./resizer.png)
-## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
-
+[<img src="./resizer.png">](https://developergovindgupta.github.io/move-rotate-resizer)
+## [DEMO-GH-Pages](https://developergovindgupta.github.io/move-rotate-resizer) 
+## [DEMO-CodeSandBox](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+## [DEMO-CodeSandBox](https://codesandbox.io/s/move-rotate-resizer-demo-2-3x33ys) 
 
 ## How to use
     import resizer from 'move-rotate-resizer';
@@ -71,7 +71,7 @@
         onResizerHide: null,        // call-back function that called when resizer is hide on target
         isHideOnResize: true,       // if true then resizer will not visible at the time of dragging so that target visible clearly
         isHoverLine: true,          // if true then target element on mouse hover hoverLine visible for highlight target element
-        boundWithContainer:false,   // if true then target element can not move outside the container element.
+        boundWithContainer:false,   // if true/HTMLDivElement then target element can not move outside the container element.
         resizers: {
             n: true,                // top middle resize handler            true:visible|false:hidden
             s: true,                // bottom middle resize handler
@@ -109,8 +109,8 @@
         <h2>resizer.js and resizer.css</h2>
         <hr />
         <div class="container">
-        <div id="div1" class="target">div1</div>
-        <div id="div2" class="target">div2</div>
+            <div id="div1" class="target">div1</div>
+            <div id="div2" class="target">div2</div>
         </div>
     </body>
     </html>
@@ -124,6 +124,102 @@
     });
 
 ## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-bh8q3) 
+
+## Example Code 2
+
+### HTML
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Parcel Sandbox</title>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./src/styles.css" />
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="content">
+                <div class="print-area">
+                    <div id="center-resize" class="target" style="left: 400px; top: 200px;" isLocked="false" isDisabled="false"> 
+                        Center Resize  
+                    </div>
+                    <div id="corner-resize" class="target" style="left: 800px; top: 200px;">   
+                        Corner Resize 
+                    </div>
+                    <div id="free-resize" class="target" style="left: 400px; top: 600px;">
+                        Free Resize
+                    </div>
+                    <div id="bound-resize" class="target" style="left: 800px; top: 600px;">
+                        Can't Move Outside
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="src/index.js"></script>
+    </body>
+    </html>
+
+### Script [index.js] 
+    import resizer from "move-rotate-resizer";
+
+    let options = {
+    onDragStart: function (e) {
+        e.target.style.opacity = "0.8";
+        e.target.style.zIndex = "999";
+    },
+    onDragging: function (e) { },
+    onDragEnd: function (e) {
+        e.target.style.opacity = "";
+        e.target.style.zIndex = "";
+    },
+    onRotateStart: function (e) {
+        e.target.style.opacity = "0.8";
+        e.target.style.zIndex = "999";
+    },
+    onRotating: function (e) { },
+    onRotateEnd: function (e) {
+        e.target.style.opacity = "";
+        e.target.style.zIndex = "";
+    },
+    onResizeStart: function (e) {
+        e.target.style.opacity = "0.8";
+        e.target.style.zIndex = "999";
+    },
+    onResizing: function (e) { },
+    onResizeEnd: function (e) {
+        e.target.style.opacity = "";
+        e.target.style.zIndex = "";
+    },
+    resizers: {
+        n: true,
+        s: true,
+        e: true,
+        w: true,
+        ne: true,
+        nw: true,
+        se: true,
+        sw: true,
+        r: true
+    }
+    };
+    let div1 = document.querySelector("#center-resize");
+    resizer.add(div1, { ...options, ...{ resizeFromCenter: true } });
+    let div2 = document.querySelector("#corner-resize");
+    resizer.add(div2, { ...options, ...{} });
+    let div3 = document.querySelector("#free-resize");
+    resizer.add(div3, { ...options, ...{ aspectRatio: false } });
+    let div4 = document.querySelector("#bound-resize");
+    resizer.add(div4, { ...options, ...{ boundWithContainer: true } });
+
+    document.body.addEventListener("click", function (e) {
+        resizer.hide();
+    });
+
+
+
+## [DEMO](https://codesandbox.io/s/move-rotate-resizer-demo-2-3x33ys) 
+
 
 ### download css file and include in your html file.
 ### [resizer.css](https://raw.githubusercontent.com/developergovindgupta/move-rotate-resizer/master/resizer.css)
